@@ -1,6 +1,6 @@
 from scapy.all import *
 import time
-
+captured_packets = []
 # Define the Bank Protocol
 class BankProtocol(Packet):
     name = "BankProtocol"
@@ -53,6 +53,8 @@ def server():
     def handle_packet(packet):
         if packet.haslayer(BankProtocol):
             bank_packet = packet[BankProtocol]
+            captured_packets.append(bank_packet)
+            wrpcap('server_packets.pcap', captured_packets)
             username = bank_packet.username.decode('utf-8').strip('\x00')
             password = bank_packet.password.decode('utf-8').strip('\x00')
             transaction_type = bank_packet.transaction_type.decode('utf-8').strip('\x00')

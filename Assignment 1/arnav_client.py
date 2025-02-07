@@ -13,7 +13,7 @@ class BankProtocol(Packet):
     ]
 
 bind_layers(TCP, BankProtocol)
-
+captured_packets = []
 # Function to send authentication packet
 def send_auth_packet(username, password , transaction_type="auth"):
     # Ensure no extra spaces or padding
@@ -51,6 +51,8 @@ def listen_for_responses():
             amount = bank_packet.amount
             print(f"Received response: {status}")  # Debugging: Print response status
             responses.append((balance, amount, status))  # Store response
+            captured_packets.append(bank_packet)
+            wrpcap('clients_packets.pcap', captured_packets)
 
     # Sniff network packets
     sniff(prn=handle_response, filter="tcp", store=0, iface="lo", timeout=5)  
