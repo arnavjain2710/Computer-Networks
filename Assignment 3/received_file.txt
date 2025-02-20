@@ -1,0 +1,4 @@
+hello
+this is the server content
+use.delimiters,to:check;whether,count,function.works
+okay,it.works
