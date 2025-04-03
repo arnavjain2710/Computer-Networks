@@ -98,28 +98,40 @@ int main() {
                 cout << "Exit command received. Closing connection." << endl;
                 break;
             }
-            cout << "Received command: " << command;
+            cout << "Received command: " << command <<"\n";
             
-            // Execute the command and capture its output using popen()
-            FILE *fp = popen(command, "r");
+            string full_command = string(command) + " 2>&1";  // Redirect stderr to stdout
+            FILE *fp = popen(full_command.c_str(), "r");
             if (fp == NULL) {
                 string errorMsg = "Failed to execute command.\n";
                 send(new_socket, errorMsg.c_str(), errorMsg.length(), 0);
                 continue;
             }
-            
+
+            // Read command output
             char output[BUFF_SIZE];
             string result = "";
             while (fgets(output, sizeof(output), fp) != NULL) {
                 result += output;
             }
-            pclose(fp);
-            
+
+            // Check command exit status
+            int status = pclose(fp);
+            if (WIFEXITED(status)) {
+                int exit_code = WEXITSTATUS(status);
+                if (exit_code == 127) {  // Standard error code for "command not found"
+                    result = "Error: Invalid command. The command was not recognized.\n";
+                }
+            } else {
+                result = "Error: Command execution failed abnormally.\n";
+            }
+
+            // Handle empty output
             if (result.empty()) {
                 result = "Command executed successfully, but no output returned.\n";
             }
-            
-            // Send the command output back to the client
+
+            // Send final response
             send(new_socket, result.c_str(), result.length(), 0);
         }
         close(new_socket);

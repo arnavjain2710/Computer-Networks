@@ -1,0 +1,20 @@
+=== Command ===
+store ls
+
+=== Server Response ===
+client
+client2
+client.cpp
+CS-356 Computer Networks Lab Session 6.pdf
+log_client.cpp
+server
+server.cpp
+
+
+=== Command ===
+store echo "heelo"
+
+=== Server Response ===
+heelo
+
+
