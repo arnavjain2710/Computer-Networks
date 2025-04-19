@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   InternetStackHelper stack;
   stack.InstallAll(); // Install on all nodes at once
 
-  // Enable IP forwarding on router ************** KEY FIX 1 **************
+  // Enable IP forwarding on router 
   router.Get(0)->GetObject<Ipv4>()->SetAttribute("IpForward", BooleanValue(true));
 
   // Assign IP addresses
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
   ipv4.SetBase("192.168.2.0", "255.255.255.0");
   Ipv4InterfaceContainer ifRouterServer = ipv4.Assign(devRouterServer);
 
-  // Configure routing ************** KEY FIX 2 **************
+  // Configure routing 
   Ipv4StaticRoutingHelper routingHelper;
   
   // Client configuration

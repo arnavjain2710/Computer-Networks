@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     // Link1: Node1 <-> Node2 (error model applied)
     // Link2: Node2 <-> Node3
     PointToPointHelper p2p;
-    p2p.SetDeviceAttribute("DataRate", StringValue("1Mbps"));
+    p2p.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
     p2p.SetChannelAttribute("Delay", StringValue("1ms"));
 
     NetDeviceContainer dev0_1 = p2p.Install(nodes.Get(0), nodes.Get(1));
@@ -33,9 +33,9 @@ int main(int argc, char *argv[]) {
 
 
 	Ptr<RateErrorModel> em = CreateObject<RateErrorModel>();
-	em->SetAttribute("ErrorRate", DoubleValue(1e-7));
+	em->SetAttribute("ErrorRate", DoubleValue(0.01));
 	// Explicitly set the error unit to per bit
-	em->SetAttribute("ErrorUnit", StringValue("ERROR_UNIT_BIT"));
+	em->SetAttribute("ErrorUnit", StringValue("ERROR_UNIT_PACKET"));
 	dev1_2.Get(1)->SetAttribute("ReceiveErrorModel", PointerValue(em));
 
 
@@ -64,7 +64,6 @@ int main(int argc, char *argv[]) {
     // Populate global routing tables
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-    // ----- Set up Applications -----
 
     // UDP Flow 1: from Node0 (client) to Node2 (server) on port 5000
     UdpServerHelper udpServer1(5000);

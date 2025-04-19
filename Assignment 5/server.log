@@ -1,0 +1,12 @@
+New client connected
+Command received: LIST
+Command received: GETtext1.txt
+Command received: GET text1.txt
+Command received: LIST
+Command received: QUIT
+Client disconnected
+New client connected
+Command received: LIST
+Command received: GET text1.txt
+Command received: QUIT
+Client disconnected

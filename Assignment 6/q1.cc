@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     // Setup point-to-point links with variable latency
     PointToPointHelper p2p;
     p2p.SetDeviceAttribute("DataRate", StringValue("1Mbps"));
-    p2p.SetChannelAttribute("Delay", StringValue("1ms")); // Vary this value for step 2
+    p2p.SetChannelAttribute("Delay", StringValue("1ms")); 
 
     NetDeviceContainer dev0_1 = p2p.Install(nodes.Get(0), nodes.Get(1));
     NetDeviceContainer dev1_2 = p2p.Install(nodes.Get(1), nodes.Get(2));
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     InternetStackHelper stack;
     stack.Install(nodes);
 
-    // Enable IP forwarding on Node1 (critical fix!)
+    // Enable IP forwarding on Node1 
     Ptr<Ipv4> ipv4Node1 = nodes.Get(1)->GetObject<Ipv4>();
     ipv4Node1->SetAttribute("IpForward", BooleanValue(true));
 
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     ipv4.SetBase("10.1.2.0", "255.255.255.0");
     Ipv4InterfaceContainer interfaces = ipv4.Assign(dev1_2);
 
-    // Add global routing (optional but recommended)
+    // Add global routing 
     Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
     // Server on Node2 (Port 5000)
